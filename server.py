@@ -17,7 +17,7 @@ from pprint import pprint
 import argparse, socket
 
 print(sys.path)
-from agents.random import Random
+from controllers.random import Random
 
 def str_to_class(s):
     return getattr(sys.modules[__name__], s)
@@ -48,7 +48,7 @@ def _print_and_resp(handler,outmode=sys.stdout):
 # tool_dict = {}
 
 
-active_agent = None
+active_controller = None
 
 class OuterLoopHttpRequestHandler (SimpleHTTPRequestHandler):
     """http request handler with QUIT stopping the server"""
@@ -68,13 +68,13 @@ class OuterLoopHttpRequestHandler (SimpleHTTPRequestHandler):
     # def do_INIT(self):
     #     post_data = _read_data(self)
     def do_NEXT_PROBLEM(self):
-        global active_agent;
-        print("NEXT PROBLEM", active_agent)
+        global active_controller;
+        print("NEXT PROBLEM", active_controller)
         post_data = _read_data(self)
         post_data = json.loads(post_data)
 
-        if(active_agent is not None):
-            nxt = active_agent.next_problem();
+        if(active_controller is not None):
+            nxt = active_controller.next_problem();
             print(nxt)
 
             self.send_response(200)
@@ -82,35 +82,37 @@ class OuterLoopHttpRequestHandler (SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(nxt).encode("utf-8"))    
         else:
-            self.send_response(400, "No Active Agent.")
+            self.send_response(400, "No Active controller.")
 
 
 
 
     def do_NEW_STUDENT(self):
-        global active_agent;
+        global active_controller;
         print("NEW STUDENT")
         post_data = _read_data(self)
         post_data = json.loads(post_data)
         # print(post_data)
 
-        if(active_agent is None):
-            agent_class = str_to_class(post_data["outer_loop_type"])
-            active_agent = agent_class()
+        if(active_controller is None):
+            controller_class = str_to_class(post_data["outer_loop_type"])
+            active_controller = controller_class()
 
-        print(active_agent)
+        print(active_controller)
 
-        active_agent.new_student(post_data["id"],post_data["problem_set"])
+        active_controller.new_student(post_data["id"],post_data["problem_set"])
 
         self.send_response(200)
         self.end_headers()   
 
     def do_POST (self):
-        global active_agent;
+        global active_controller;
         post_data = _read_data(self)
         post_data = json.loads(post_data)
 
-        active_agent.update(post_data['selection'],post_data['reward'])
+        active_controller.update(post_data['selection'],
+            post_data['reward'],post_data['feedback_type'],
+            post_data['problem_name'])
     
         self.send_response(200)
         self.end_headers()
@@ -153,8 +155,8 @@ def parse_args(argv):
         help="The port that the server will bind to.")
     parser.add_argument('--port', default=None, metavar="<port #>", dest='port', 
         help="The port that the server will bind to.")
-    parser.add_argument('-a', '--agent' , default="Random", dest = "agent_name", metavar="<AGENT>",
-        type=str, help="The name of the agent to be used.")
+    parser.add_argument('-a', '--controller' , default="Random", dest = "controller_name", metavar="<controller>",
+        type=str, help="The name of the controller to be used.")
 
     try:
         args = parser.parse_args(argv)        
