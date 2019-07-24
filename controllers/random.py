@@ -5,6 +5,15 @@ Q_literalField = {'hint':'hint', 'done':'done', 'JCommTable4.R0C0':'num3','JComm
 Q_field = {'num3': 'num5', 'den3': 'den5'}
 
 class Random(OuterLoopController):
+	def new_student(self, student_id, action_space=None):
+		self.current_student = student_id
+		split = int(len(action_space) * .1)
+		
+		self.action_space = action_space[:split]
+		self.test_set = action_space[split:]
+
+		self.is_initialized = True
+
 	def update(self,step,reward,feedback_type,problem_name):
 		correctness = "\x1b[0;30;42m correct\x1b[0m" if reward > 0 and feedback_type == "correctness" else "\x1b[0;30;41m incorrect\x1b[0m"
 		kc = Q_literalField[step]
@@ -24,8 +33,10 @@ class Random(OuterLoopController):
 		if(len(self.action_space) > 0):
 			nxt = choice(self.action_space)
 			self.action_space.remove(nxt)
-			print("N",nxt)
-			print("REST",self.action_space)
+			return nxt
+		elif(len(self.test_set) > 0):
+			nxt = self.test_set.pop(0)
+			nxt["test_mode"] = True
 			return nxt
 		else:
 			return {}
