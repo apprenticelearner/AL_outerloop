@@ -5,6 +5,8 @@ import sys,os,inspect
 
 mastery_threshold = .95 #Stop asking about a skill if estimate of mastery is > threshold
 max_problems = 50 #Stop asking problems if after max_problems
+
+# This is the path to AL_outerloop/ExampleJSON/bkt_config.json
 config_file = os.path.join('ExampleJSON', 'bkt_config.json') # File with the BKT probabilities
 
 class BKT(OuterLoopController):
