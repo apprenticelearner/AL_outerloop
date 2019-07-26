@@ -18,6 +18,7 @@ import argparse, socket
 
 print(sys.path)
 from controllers.random import Random
+from controllers.bkt import BKT
 
 def str_to_class(s):
     return getattr(sys.modules[__name__], s)

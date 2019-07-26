@@ -1,10 +1,11 @@
 from .base import OuterLoopController
 from random import choice
 import json
+import sys,os,inspect
 
 mastery_threshold = .95 #Stop asking about a skill if estimate of mastery is > threshold
 max_problems = 50 #Stop asking problems if after max_problems
-config_file = '/Users/arafferty/git/AL_outerloop/exampleJSON/bkt_config.json' # File with the BKT probabilities
+config_file = os.path.join('ExampleJSON', 'bkt_config.json') # File with the BKT probabilities
 
 class BKT(OuterLoopController):
     def __init__(self):
@@ -130,7 +131,10 @@ class BKT(OuterLoopController):
        
 
 def read_config_json(json_file):
-    with open(json_file) as f:
+    split_path = os.path.abspath(inspect.stack()[0][1]).split("controllers")
+    # print(os.getcwd())
+    json_path = os.path.join(split_path[0],json_file)
+    with open(json_path) as f:
         config = json.load(f)
     global bkt_probs
     bkt_probs = config["bkt_probs"]

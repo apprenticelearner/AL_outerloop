@@ -9,6 +9,15 @@
         "when_learner": "trestle",
         "where_learner": "MostSpecific"
       },
+      "feature_set": [
+        "equals"
+      ],
+      "function_set": [
+        "add",
+        "subtract",
+        "multiply",
+        "divide"
+      ],
       "set_params": {
             "HTML": "HTML/fraction_arithmetic.html",
             "examples_only": false
