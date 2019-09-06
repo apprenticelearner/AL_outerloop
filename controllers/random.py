@@ -3,21 +3,12 @@ from random import choice
 
 
 class Random(OuterLoopController):
-    def new_student(self, student_id, action_space=None):
+    def new_student(self, student_id, action_space=None, outer_loop_args = None):
         '''
         Initializes the controller to train a new agent.
         '''
-        super().new_student(student_id, action_space)
-        # Separate the action_space into training (action_space)
-        # and test (test_set)
-        # We'll use the last 10 to evaluate the agent
-        split = 10
-        if len(action_space) > split:       
-            self.action_space = action_space[:-split]
-            self.test_set = action_space[-split:]
-        else:
-            self.action_space = action_space
-            self.test_set = []
+        super().new_student(student_id, action_space, outer_loop_args)
+
 
     def update(self,step,reward,feedback_type,problem_name):
         '''

@@ -19,7 +19,6 @@ import argparse, socket
 print(sys.path)
 from controllers.random import Random
 from controllers.bkt import BKT
-
 def str_to_class(s):
     return getattr(sys.modules[__name__], s)
 
@@ -101,7 +100,7 @@ class OuterLoopHttpRequestHandler (SimpleHTTPRequestHandler):
 
         print(active_controller)
 
-        active_controller.new_student(post_data["id"],post_data["problem_set"])
+        active_controller.new_student(post_data["id"],post_data["problem_set"], post_data.get("outer_loop_args"))
 
         self.send_response(200)
         self.end_headers()   
@@ -172,6 +171,7 @@ def parse_args(argv):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
+    print(args)
 
     server = OuterLoopHttpServer((args.host, int(args.port)), OuterLoopHttpRequestHandler)
     print("OUTERLOOP STARTED")
