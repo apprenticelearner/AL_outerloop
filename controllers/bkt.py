@@ -64,9 +64,11 @@ class BKT(OuterLoopController):
         
         # Map each problem to a skill
         self.problems_by_skill = {}
-        for problem in self.action_space:
-            item = problem["question_file"]
-            kcs = problem["kc_list"]
+        for problem in self.action_space:            
+            if not bkt_config.get("single_kc", False):
+                kcs = problem["kc_list"]
+            else:
+                kcs = ["single_kc"]
             for kc in kcs:
                 if kc not in self.problems_by_skill:
                      self.problems_by_skill[kc] = []
@@ -156,6 +158,7 @@ class BKT(OuterLoopController):
             # problems as allowed - stop training.
             self.test_mode  = True;
             print("Mastery estimates when entering testing:",self.mastery_prob)
+            print("skills mastered:",self.all_skills_mastered())
         
         if self.test_mode:
             if len(self.test_set) > 0:
@@ -174,7 +177,11 @@ class BKT(OuterLoopController):
             max_unmastered_skills = 0
             problem_with_max_unmastered_skills = []
             for problem in self.action_space:
-                skills = problem["kc_list"]
+                if not bkt_config.get("single_kc", False):
+                    skills = problem["kc_list"]
+                else:
+                    skills = ["single_kc"]
+                
                 # Check how many skills that are used in this problem are unmastered
                 unmastered_skills = [skill for skill in skills if self.mastery_prob[skill] < mastery_threshold]
                 if bkt_config.get("choose_max_unmastered", False):
