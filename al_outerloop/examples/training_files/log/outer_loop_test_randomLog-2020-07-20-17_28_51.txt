@@ -1,0 +1,3 @@
+Anon Student Id	Session Id	Transaction Id	Time	Time Zone	Student Response Type	Tutor Response Type	Level (Domain)	Problem Name	Step Name	Selection	Action	Input	Feedback Text	Outcome	CF (Problem Context)
+Random Controller(1)	b4d5f4f4-102a-fbf1-5d72-1ddb1ddfe9b6	c140ad2c-04c9-6448-f1b9-eceda7934619	3000	UTC		HINT_MSG	fraction_arithmetic	M 3_7_times_2_8	1				Please enter '15' in the highlighted cell.	HINT	
+Random Controller(1)	b4d5f4f4-102a-fbf1-5d72-1ddb1ddfe9b6	81b4beb0-3756-0d88-7161-cd37d4eeb04d	5000	UTC	ATTEMPT	RESULT	fraction_arithmetic	M 3_7_times_2_8	1	JCommTable6.R0C0	UpdateTextArea	6		CORRECT	

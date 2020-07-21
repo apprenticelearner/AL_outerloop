@@ -1,0 +1,3 @@
+Anon Student Id	Session Id	Transaction Id	Time	Time Zone	Student Response Type	Tutor Response Type	Level (Domain)	Problem Name	Step Name	Selection	Action	Input	Feedback Text	Outcome	CF (Problem Context)
+BKT Controller(1)	5089f78f-561b-0a5d-0906-c8bc62034c45	d2cb73ca-4f35-3e6a-f457-58ec56d57d8a	3000	UTC		HINT_MSG	fraction_arithmetic	AS 3_8_plus_7_8	1				Please enter '2' in the highlighted cell.	HINT	
+BKT Controller(1)	5089f78f-561b-0a5d-0906-c8bc62034c45	48268fef-df73-5a65-f1e6-665e413dd793	5000	UTC	ATTEMPT	RESULT	fraction_arithmetic	AS 3_8_plus_7_8	1	JCommTable6.R1C0	UpdateTextArea	8		CORRECT	
