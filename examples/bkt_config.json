@@ -1,7 +1,0 @@
-{
-"bkt_probs" : 
-            {"AD" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
-             "AS" : {"known": 0.1, "learn": 0.1, "guess": 0.05, "slip": 0.02},
-             "M "  : {"known": 0.1, "learn": 0.1, "guess": 0.05, "slip": 0.02}
-            }      
-}
