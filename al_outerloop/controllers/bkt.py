@@ -2,6 +2,11 @@ from .base import OuterLoopController
 from random import choice
 import json
 import sys,os,inspect
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init(autoreset=True)
+
 
 #######
 # This version of the BKT controller updates
@@ -113,10 +118,16 @@ class BKT(OuterLoopController):
 
         
     def update(self,step,reward,action_type):
-        correctness = "\x1b[0;30;42m correct\x1b[0m" if reward > 0 and action_type == "ATTEMPT" else "\x1b[0;30;41m incorrect\x1b[0m"
         # 0/1 for correct incorrect rather than a string to print
         correctness_numeric = 1 if reward > 0 and action_type == "ATTEMPT" else 0
         
+        if(action_type == "ATTEMPT"):
+            correctness = Back.GREEN + "correct" if reward > 0 else Back.RED + "incorrect"
+        else:
+            correctness = Back.BLUE + "example"
+
+        # Print out information about performance
+        print(Fore.CYAN + "RL_CONTROLLER UPDATE:", step, reward, correctness)
         # print("RL_AGENT UPDATE:",step, reward,correctness,problem_name)
         self.rewards[-1].append(correctness_numeric)
         self.steps[-1].append(step)

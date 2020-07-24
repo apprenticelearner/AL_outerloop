@@ -1,5 +1,9 @@
 from .base import OuterLoopController
 from random import choice
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init(autoreset=True)
 
 
 class Random(OuterLoopController):
@@ -22,13 +26,13 @@ class Random(OuterLoopController):
         # reward, or positive reward when the agent is asking for a 
         # hint).
         if(action_type == "ATTEMPT"):
-            correctness = "\x1b[0;30;42m correct\x1b[0m" if reward > 0 else "\x1b[0;30;41m incorrect\x1b[0m"
+            correctness = Back.GREEN + "correct" if reward > 0 else Back.RED + "incorrect"
         else:
-            correctness = "\x1b[0;30;43m example\x1b[0m"
+            correctness = Back.BLUE + "example"
        
         
         # Print out information about performance
-        print("RL_CONTROLLER UPDATE:",step, reward,correctness)
+        print(Fore.CYAN + "RL_CONTROLLER UPDATE:",step, reward,correctness)
 
 
     def next_problem(self,student=None):
