@@ -17,7 +17,7 @@
            }
         }
       },
-      "HTML": "../tutors/FractionArithmetic/fraction_arithmetic.html",
+      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
       "abs_qf_paths": true
     },
   "training_set1": [
@@ -29,7 +29,7 @@
         "problem_set": {
           "glob" :
             {"key" : "question_file",
-             "pattern": "../tutors/FractionArithmetic/mass_production_brds/*"
+             "pattern": "tutors/FractionArithmetic/mass_production_brds/*"
             }
         }
       }
