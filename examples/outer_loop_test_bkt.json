@@ -8,10 +8,11 @@
         "feature_set" : ["Equals"],
         "args": {
           "planner" : "numba",
+          "search_depth" : 2,
           "when_learner": "trestle",
           "where_learner": "FastMostSpecific",
           "state_variablization" : "whereappend",
-          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent"],
+          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent","dom_class"],
           "when_args" : {
             "cross_rhs_inference" : "none"
            }
