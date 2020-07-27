@@ -127,7 +127,6 @@ class Streak(OuterLoopController):
                 return nxt
             else:
                 log.info("Problems in training ( total number =", self.num_problems,")")
-                log.info(self.problems_asked)
                 return None # done training
         else:
             log.info("Asking for problem ", self.num_problems)

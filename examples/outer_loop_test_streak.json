@@ -6,14 +6,14 @@
         "dont_save": true,
         "args": {
           "planner" : "numba",
-          "when_learner": "trestle",
+          "when_learner": "decisiontree",
           "where_learner": "FastMostSpecific",
           "state_variablization" : "whereappend",
-          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent"],
+          // "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent"],
           "when_args" : {
             "cross_rhs_inference" : "none"
-           },
-          "function_set" : ["RipFloatValue","Add", "Subtract","Numerator_Multiply", "Cross_Multiply", "Divide"],
+          },
+          "function_set" : ["RipFloatValue","Add", "Subtract", "Multiply", "Divide"],
           "feature_set" : ["Equals"]
         }
       },

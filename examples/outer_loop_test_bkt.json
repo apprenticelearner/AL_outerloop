@@ -4,8 +4,6 @@
         "agent_type": "ModularAgent",
         "stay_active": true,
         "dont_save": true,
-        "function_set" : ["RipFloatValue","Add", "Subtract","Numerator_Multiply", "Cross_Multiply", "Divide"],
-        "feature_set" : ["Equals"],
         "args": {
           "planner" : "numba",
           "when_learner": "trestle",
@@ -14,7 +12,11 @@
           "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent"],
           "when_args" : {
             "cross_rhs_inference" : "none"
-           }
+           },
+	   "function_set" : ["RipFloatValue","Add",
+		   "Subtract","Numerator_Multiply", "Cross_Multiply",
+		   "Divide"],
+           "feature_set" : ["Equals"],
         }
       },
       "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
