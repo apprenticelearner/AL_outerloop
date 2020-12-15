@@ -19,7 +19,7 @@ class Streak(OuterLoopController):
         super().new_student(student_id, action_space)
         
         self.kcs = outer_loop_args['kcs']
-        self.interface_to_kcs = outer_loop_args['interface_to_kcs']
+        self.interface_to_kcs = outer_loop_args['interface_to_kc']
 
         self.correct_counts = {kc: 0 for kc in self.kcs}
         self.num_problems = 0

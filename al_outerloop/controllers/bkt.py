@@ -136,6 +136,7 @@ class BKT(OuterLoopController):
         # This controller updates the knowledge component based on the interface marked in the
         # Selection field - here, that corresponds to the step variable.
         kcs = self.current_prob['kc_list'] if 'interface_to_kc' not in self.bkt_config else self.resolve_kcs(step)
+        print("KCS being updated", kcs)
         for skill in kcs:
             # skill = self.current_prob['kc_list'][0]#self.map_interface_to_skill(problem_name, step)
             if skill not in bkt_probs:
@@ -183,8 +184,7 @@ class BKT(OuterLoopController):
         self.rewards.append([])
         self.steps.append([])
         self.tps.append([])
-        
-        
+
         if self.all_skills_mastered() or len(self.rewards) > max_problems:
             # All skills have been mastered or we've asked as many
             # problems as allowed - stop training.
@@ -216,7 +216,7 @@ class BKT(OuterLoopController):
                 #     skills = ["single_kc"]
                 
                 # Check how many skills that are used in this problem are unmastered
-                unmastered_kcs = [kc for kc in kcs if self.mastery_prob[kc] < mastery_threshold]
+                unmastered_kcs = [kc for kc in kcs if self.mastery_prob[kc] <= mastery_threshold]
                 if self.bkt_config.get("choose_max_unmastered", False):
                     if len(unmastered_kcs) > max_unmastered_kcs:
                         max_unmastered_kcs = len(unmastered_kcs)
@@ -233,4 +233,3 @@ class BKT(OuterLoopController):
             self.current_prob = nxt
             # print("N",nxt)
             return nxt
-       
