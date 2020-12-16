@@ -1,0 +1,98 @@
+{
+    "set_params" : {
+      "agent" : {
+        "agent_type": "ModularAgent",
+        "stay_active": true,
+        "dont_save": true,
+        "args": {
+          "planner" : "numba",
+          "search_depth" : 2,
+          "when_learner": "decisiontree",
+          "where_learner": "FastMostSpecific",
+          "state_variablization" : "whereappend",
+          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent","dom_class"],
+          "when_args" : {
+            "cross_rhs_inference" : "none"
+           },
+	   "function_set" : ["RipFloatValue","Add",
+		   "Subtract","Numerator_Multiply", "Cross_Multiply",
+		   "Divide"],
+           "feature_set" : ["Equals"],
+        }
+      },
+      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
+      "abs_qf_paths": true
+    },
+  "training_set1": [
+    {
+      "agent_name": "BKT Controller",
+      "repetitions" : 30,
+      "outer_loop_controller" : {
+        "type" : "BKT",
+        "args" : {
+          "bkt_probs" : 
+            {
+             "AD check_convert" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+
+             "AD num3" : {"known": 0.0000093497, "learn": 0.1810679154, "guess": 0.0852545644, "slip": 0.2435815960},
+             "AD den3" : {"known": 0.0000480931, "learn": 0.1917027063, "guess": 0.0677372449, "slip": 0.1958493692},
+             "AD num4" : {"known": 0.0000000001, "learn": 0.0792575857, "guess": 0.1337396767, "slip": 0.2151947519},
+             "AD den4" : {"known": 0.0000000067, "learn": 0.1360588059, "guess": 0.0808771533, "slip": 0.1695478455},
+             "AD num5" : {"known": 0.0000000000, "learn": 0.0570964492, "guess": 0.1668333742, "slip": 0.1796634650},
+             "AD den5" : {"known": 0.0000000000, "learn": 0.0557092283, "guess": 0.1802833023, "slip": 0.1740477574},
+             "AD done" : {"known": 0.0026084325, "learn": 0.1596133208, "guess": 0.3000000000, "slip": 0.0962795982 },
+
+             "AS num3" : {"known": 0.0431727719, "learn": 0.3033639712, "guess": 0.0957464999, "slip": 0.1045680555},
+             "AS den3" : {"known": 0.0000000641, "learn": 0.3608876131, "guess": 0.1127237400, "slip": 0.1409748456},
+             "AS num4" : {"known": 0.1048389532, "learn": 0.5375606231, "guess": 0.0381825880, "slip": 0.1785523451},
+             "AS den4" : {"known": 0.2004787265, "learn": 0.5026235723, "guess": 0.1287449636, "slip": 0.0629429996},
+             "AS num5" : {"known": 0.0000140955, "learn": 0.3029393908, "guess": 0.0990673738, "slip": 0.0960732688 },
+             "AS den5" : {"known": 0.0016154726, "learn": 0.3450209451, "guess": 0.1240814474, "slip": 0.2057141398},
+             "AS done" : {"known": 0.0000835337, "learn": 0.2357927131, "guess": 0.2715311518, "slip": 0.1009954653},
+
+             "M num3" : {"known": 0.0000009567, "learn": 0.3819492506, "guess": 0.1399547127, "slip": 0.0502076043},
+             "M den3" : {"known": 0.0272924026, "learn": 0.1427033392, "guess": 0.3000000000, "slip": 0.0565474593},
+             "M num4" : {"known": 0.8052918388, "learn": 0.9545715122, "guess": 0.3000000000, "slip": 0.2508795315},
+             "M den4" : {"known": 0.0008853693, "learn": 0.1935411349, "guess": 0.3000000000, "slip": 0.0693928237},
+             "M num5" : {"known": 0.0007567684, "learn": 0.1484043711, "guess": 0.3000000000, "slip": 0.0663688968},
+             "M den5" : {"known": 0.0001053167, "learn": 0.2546773440, "guess": 0.2660533366, "slip": 0.0427399450},
+             "M done" : {"known": 0.0000090318, "learn": 0.1803580735, "guess": 0.3000000000, "slip": 0.0302020949},
+             
+            },
+          "interface_to_kcs" : {
+            "check_convert" : ["AD check_convert"],
+            "done" : ["AD done", "AS done", "M done"],
+            "JCommTable4.R0C0" : ["AD num3", "AS num3", "M num3"],
+            "JCommTable4.R1C0" : ["AD den3", "AS den3", "M den3"],
+            "JCommTable5.R0C0" : ["AD num4", "AS num4", "M num4"],
+            "JCommTable5.R1C0" : ["AD den4", "AS den4", "M den4"],
+            "JCommTable6.R0C0" : ["AD num5", "AS num5", "M num5"],
+            "JCommTable6.R1C0" : ["AD den5", "AS den5", "M den5"],
+          }
+        },
+        "problem_set": {
+          "concatenate" : [
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/AD*",
+               "obj_template" : {"kc_list" : ["AD check_convert","AD den3","AD num3","AD den4","AD num4","AD den5","AD num5","AD done"]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/AS*",
+               "obj_template" : {"kc_list" : ["AS den3","AS num3","AS den4","AS num4","AS den5","AS num5","AS done"]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/M*",
+               "obj_template" : {"kc_list" : ["M den3","M num3","M den4","M num4","M den5","M num5","M done"]}
+              }
+            }
+          ]
+        }
+      },
+    }
+  ]  
+}

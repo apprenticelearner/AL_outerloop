@@ -1,0 +1,218 @@
+<parameters>
+  <parameter>
+    <id>1</id>
+    <type>skill</type>
+    <name>M  JCommTable6.R0C0</name>
+    <intercept>0.0007567684</intercept>
+    <slope>0.1484043711</slope>
+    <slip>0.0663688968</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>2</id>
+    <type>skill</type>
+    <name>M  JCommTable6.R1C0</name>
+    <intercept>0.0001053167</intercept>
+    <slope>0.2546773440</slope>
+    <slip>0.0427399450</slip>
+    <guess>0.2660533366</guess>
+  </parameter>
+  <parameter>
+    <id>3</id>
+    <type>skill</type>
+    <name>M  JCommTable4.R0C0</name>
+    <intercept>0.0000009567</intercept>
+    <slope>0.3819492506</slope>
+    <slip>0.0502076043</slip>
+    <guess>0.1399547127</guess>
+  </parameter>
+  <parameter>
+    <id>4</id>
+    <type>skill</type>
+    <name>M  JCommTable5.R1C0</name>
+    <intercept>0.0008853693</intercept>
+    <slope>0.1935411349</slope>
+    <slip>0.0693928237</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>5</id>
+    <type>skill</type>
+    <name>M  done</name>
+    <intercept>0.0000090318</intercept>
+    <slope>0.1803580735</slope>
+    <slip>0.0302020949</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>6</id>
+    <type>skill</type>
+    <name>M  JCommTable4.R1C0</name>
+    <intercept>0.0272924026</intercept>
+    <slope>0.1427033392</slope>
+    <slip>0.0565474593</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>7</id>
+    <type>skill</type>
+    <name>M  JCommTable8.R0C0</name>
+    <intercept>0.0000000137</intercept>
+    <slope>0.1855100406</slope>
+    <slip>0.0419376468</slip>
+    <guess>0.1438380179</guess>
+  </parameter>
+  <parameter>
+    <id>8</id>
+    <type>skill</type>
+    <name>AD JCommTable4.R0C0</name>
+    <intercept>0.0000093497</intercept>
+    <slope>0.1810679154</slope>
+    <slip>0.2435815960</slip>
+    <guess>0.0852545644</guess>
+  </parameter>
+  <parameter>
+    <id>9</id>
+    <type>skill</type>
+    <name>AD JCommTable4.R1C0</name>
+    <intercept>0.0000480931</intercept>
+    <slope>0.1917027063</slope>
+    <slip>0.1958493692</slip>
+    <guess>0.0677372449</guess>
+  </parameter>
+  <parameter>
+    <id>10</id>
+    <type>skill</type>
+    <name>AD JCommTable5.R0C0</name>
+    <intercept>0.0000000001</intercept>
+    <slope>0.0792575857</slope>
+    <slip>0.2151947519</slip>
+    <guess>0.1337396767</guess>
+  </parameter>
+  <parameter>
+    <id>11</id>
+    <type>skill</type>
+    <name>AD JCommTable5.R1C0</name>
+    <intercept>0.0000000067</intercept>
+    <slope>0.1360588059</slope>
+    <slip>0.1695478455</slip>
+    <guess>0.0808771533</guess>
+  </parameter>
+  <parameter>
+    <id>12</id>
+    <type>skill</type>
+    <name>AD JCommTable6.R0C0</name>
+    <intercept>0.0000000000</intercept>
+    <slope>0.0570964492</slope>
+    <slip>0.1796634650</slip>
+    <guess>0.1668333742</guess>
+  </parameter>
+  <parameter>
+    <id>13</id>
+    <type>skill</type>
+    <name>AD JCommTable6.R1C0</name>
+    <intercept>0.0000000000</intercept>
+    <slope>0.0557092283</slope>
+    <slip>0.1740477574</slip>
+    <guess>0.1802833023</guess>
+  </parameter>
+  <parameter>
+    <id>14</id>
+    <type>skill</type>
+    <name>AD JCommTable8.R0C0</name>
+    <intercept>0.0034713733</intercept>
+    <slope>0.3533298337</slope>
+    <slip>0.2343257941</slip>
+    <guess>0.0611253901</guess>
+  </parameter>
+  <parameter>
+    <id>15</id>
+    <type>skill</type>
+    <name>AD done</name>
+    <intercept>0.0026084325</intercept>
+    <slope>0.1596133208</slope>
+    <slip>0.0962795982</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>16</id>
+    <type>skill</type>
+    <name>M  JCommTable5.R0C0</name>
+    <intercept>0.8052918388</intercept>
+    <slope>0.9545715122</slope>
+    <slip>0.2508795315</slip>
+    <guess>0.3000000000</guess>
+  </parameter>
+  <parameter>
+    <id>17</id>
+    <type>skill</type>
+    <name>AS JCommTable4.R0C0</name>
+    <intercept>0.0431727719</intercept>
+    <slope>0.3033639712</slope>
+    <slip>0.1045680555</slip>
+    <guess>0.0957464999</guess>
+  </parameter>
+  <parameter>
+    <id>18</id>
+    <type>skill</type>
+    <name>AS JCommTable6.R1C0</name>
+    <intercept>0.0016154726</intercept>
+    <slope>0.3450209451</slope>
+    <slip>0.2057141398</slip>
+    <guess>0.1240814474</guess>
+  </parameter>
+  <parameter>
+    <id>19</id>
+    <type>skill</type>
+    <name>AS JCommTable8.R0C0</name>
+    <intercept>0.0001982199</intercept>
+    <slope>0.3006631873</slope>
+    <slip>0.1903939990</slip>
+    <guess>0.0680437210</guess>
+  </parameter>
+  <parameter>
+    <id>20</id>
+    <type>skill</type>
+    <name>AS JCommTable6.R0C0</name>
+    <intercept>0.0000140955</intercept>
+    <slope>0.3029393908</slope>
+    <slip>0.0960732688</slip>
+    <guess>0.0990673738</guess>
+  </parameter>
+  <parameter>
+    <id>21</id>
+    <type>skill</type>
+    <name>AS done</name>
+    <intercept>0.0000835337</intercept>
+    <slope>0.2357927131</slope>
+    <slip>0.1009954653</slip>
+    <guess>0.2715311518</guess>
+  </parameter>
+  <parameter>
+    <id>22</id>
+    <type>skill</type>
+    <name>AS JCommTable4.R1C0</name>
+    <intercept>0.0000000641</intercept>
+    <slope>0.3608876131</slope>
+    <slip>0.1409748456</slip>
+    <guess>0.1127237400</guess>
+  </parameter>
+  <parameter>
+    <id>23</id>
+    <type>skill</type>
+    <name>AS JCommTable5.R1C0</name>
+    <intercept>0.2004787265</intercept>
+    <slope>0.5026235723</slope>
+    <slip>0.0629429996</slip>
+    <guess>0.1287449636</guess>
+  </parameter>
+  <parameter>
+    <id>24</id>
+    <type>skill</type>
+    <name>AS JCommTable5.R0C0</name>
+    <intercept>0.1048389532</intercept>
+    <slope>0.5375606231</slope>
+    <slip>0.1785523451</slip>
+    <guess>0.0381825880</guess>
+  </parameter>
+</parameters>
