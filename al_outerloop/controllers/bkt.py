@@ -118,15 +118,6 @@ class BKT(OuterLoopController):
 
         
     def update(self,step,reward,action_type):
-        if step in self.first_attempt:
-            return
-
-        # check if step is in the first_attempt
-        self.first_attempt[step] = True
-
-        # print if it is updating and the step
-        print("updating", step)
-
         # 0/1 for correct incorrect rather than a string to print
         correctness_numeric = 1 if reward > 0 and action_type == "ATTEMPT" else 0
         
@@ -193,12 +184,7 @@ class BKT(OuterLoopController):
         self.rewards.append([])
         self.steps.append([])
         self.tps.append([])
-<<<<<<< Updated upstream
 
-=======
-        self.first_attempt = {}
-        
->>>>>>> Stashed changes
         if self.all_skills_mastered() or len(self.rewards) > max_problems:
             # All skills have been mastered or we've asked as many
             # problems as allowed - stop training.
