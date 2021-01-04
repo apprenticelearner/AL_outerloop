@@ -51,6 +51,14 @@ class BKT(OuterLoopController):
         bkt_probs = outer_loop_args["bkt_probs"]
         # global bkt_config
         self.bkt_config = outer_loop_args
+
+        self.choose_max_unmastered = True
+        if 'choose_max_unmastered' in outer_loop_args:
+            self.choose_max_unmastered = outer_loop_args['choose_max_unmastered']
+
+        self.reuse_problems = False
+        if 'reuse_problems' in outer_loop_args:
+            self.reuse_problems = outer_loop_args['reuse_problems']
         
         # Track the steps for each problem, rewards, and feedback types.
         self.steps = []
@@ -185,13 +193,59 @@ class BKT(OuterLoopController):
         self.steps.append([])
         self.tps.append([])
 
-        if self.all_skills_mastered() or len(self.rewards) > max_problems:
+        if (self.all_skills_mastered() or len(self.rewards) > max_problems or
+                len(self.action_space) == 0):
             # All skills have been mastered or we've asked as many
             # problems as allowed - stop training.
             self.test_mode  = True;
             print("Mastery estimates when entering testing:",self.mastery_prob)
             print("skills mastered:",self.all_skills_mastered())
         
+        if not self.test_mode:
+            print("Asking for problem ", len(self.rewards))
+            print("Mastery_Probabilities: ",self.mastery_prob)
+            # Choose a problem with the most unmastered skills 
+            
+            max_unmastered_kcs = 0
+            problem_with_unmastered_kcs = []
+            for problem in self.action_space:
+                kcs = self.get_problem_kcs(problem)
+                # print('problem kcs', kcs)
+                # if bkt_config.get("single_kc", False):
+                #     skills = problem["kc_list"]
+                # else:
+                #     skills = ["single_kc"]
+                
+                # Check how many skills that are used in this problem are unmastered
+                unmastered_kcs = [kc for kc in kcs if self.mastery_prob[kc] <= mastery_threshold]
+                if len(unmastered_kcs) == 0:
+                    continue
+                elif self.choose_max_unmastered:
+                    if len(unmastered_kcs) > max_unmastered_kcs:
+                        max_unmastered_kcs = len(unmastered_kcs)
+                        problem_with_unmastered_kcs = [problem]
+                    elif len(unmastered_kcs) == max_unmastered_kcs: # We'll choose randomly among problems with the same number of unmastered skills
+                        problem_with_unmastered_kcs.append(problem)
+                else:
+                    problem_with_unmastered_kcs.append(problem)
+
+            if len(problem_with_unmastered_kcs) == 0:
+                self.test_mode  = True;
+                log.info("Streak counts when entering testing:", self.correct_counts)
+                log.info("Skills mastered:", self.all_skills_mastered())
+            else:
+                # print("Number of problems with", max_unmastered_kcs, "unmastered skills:", len(problem_with_max_unmastered_kcs))
+                # Choose a random problem from problems with the maximum unmastered skills
+                nxt = choice(problem_with_unmastered_kcs)
+
+                if not self.reuse_problems:
+                    self.action_space.remove(nxt)
+
+                self.problems_asked.append(nxt["question_file"])
+                self.current_prob = nxt
+                # print("N",nxt)
+                return nxt
+
         if self.test_mode:
             if len(self.test_set) > 0:
                 nxt = self.test_set.pop(0)
@@ -201,35 +255,3 @@ class BKT(OuterLoopController):
                 print("Problems in training ( total number =", len(self.problems_asked),")")
                 print(self.problems_asked)
                 return None # done training
-        else:
-            print("Asking for problem ", len(self.rewards))
-            print("Mastery_Probabilities: ",self.mastery_prob)
-            # Choose a problem with the most unmastered skills 
-            
-            max_unmastered_kcs = 0
-            problem_with_max_unmastered_kcs = []
-            for problem in self.action_space:
-                kcs = self.get_problem_kcs(problem)
-                # if bkt_config.get("single_kc", False):
-                #     skills = problem["kc_list"]
-                # else:
-                #     skills = ["single_kc"]
-                
-                # Check how many skills that are used in this problem are unmastered
-                unmastered_kcs = [kc for kc in kcs if self.mastery_prob[kc] <= mastery_threshold]
-                if self.bkt_config.get("choose_max_unmastered", False):
-                    if len(unmastered_kcs) > max_unmastered_kcs:
-                        max_unmastered_kcs = len(unmastered_kcs)
-                        problem_with_max_unmastered_kcs = [problem]
-                    elif len(unmastered_kcs) == max_unmastered_kcs: # We'll choose randomly among problems with the same number of unmastered skills
-                        problem_with_max_unmastered_kcs.append(problem)
-                else:
-                    problem_with_max_unmastered_kcs.append(problem)
-                    
-            # print("Number of problems with", max_unmastered_kcs, "unmastered skills:", len(problem_with_max_unmastered_kcs))
-            # Choose a random problem from problems with the maximum unmastered skills
-            nxt = choice(problem_with_max_unmastered_kcs)
-            self.problems_asked.append(nxt["question_file"])
-            self.current_prob = nxt
-            # print("N",nxt)
-            return nxt
