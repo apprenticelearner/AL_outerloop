@@ -84,6 +84,8 @@ class BKT(OuterLoopController):
                      self.problems_by_skill[kc] = []
                 self.problems_by_skill[kc].append(problem)
 
+        self.steps_updated = set()
+
         # print("self.problems_by_skill")
         # print(self.problems_by_skill)
         
@@ -126,6 +128,13 @@ class BKT(OuterLoopController):
 
         
     def update(self,step,reward,action_type):
+
+        if step in self.steps_updated:
+            print('not first attempt, skipping update.')
+            return
+
+        self.steps_updated.add(step)
+
         # 0/1 for correct incorrect rather than a string to print
         correctness_numeric = 1 if reward > 0 and action_type == "ATTEMPT" else 0
         
@@ -188,6 +197,10 @@ class BKT(OuterLoopController):
         return True
         
     def next_problem(self,student=None):
+
+        # Reset the steps updated to empty set
+        self.steps_updated = set()
+
         # Start tracking of new problem
         self.rewards.append([])
         self.steps.append([])
