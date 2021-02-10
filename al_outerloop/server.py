@@ -19,6 +19,7 @@ import argparse, socket
 print(sys.path)
 from controllers.random import Random
 from controllers.bkt import BKT
+from controllers.dkt import DKT
 from controllers.streak import Streak
 
 def str_to_class(s):

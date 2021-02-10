@@ -6,25 +6,63 @@ import colorama
 from colorama import Fore, Back, Style
 import logging
 
+from dkt_torch.model_fitting import predict
+
 colorama.init(autoreset=True)
+logging.basicConfig()
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
+kc_mapping = {
+    "AD check_convert": "AD JCommTable8.R0C0",
+    "AS check_convert": "AS JCommTable8.R0C0",
+    "M check_convert": "M  JCommTable8.R0C0",
+    "AD done": 'AD done',
+    "AS done": 'AS done',
+    "M done": 'M  done',
+    "AD num3": "AD JCommTable4.R0C0",
+    "AS num3": "AS JCommTable4.R0C0",
+    "M num3": "M  JCommTable4.R0C0",
+    "AD den3": "AD JCommTable4.R1C0",
+    "AS den3": "AS JCommTable4.R1C0",
+    "M den3": "M  JCommTable4.R1C0",
+    "AD num4": "AD JCommTable5.R0C0",
+    "AS num4": "AS JCommTable5.R0C0",
+    "M num4": "M  JCommTable5.R0C0",
+    "AD den4": "AD JCommTable5.R1C0",
+    "AS den4": "AS JCommTable5.R1C0",
+    "M den4": "M  JCommTable5.R1C0",
+    "AD num5": "AD JCommTable6.R0C0",
+    "AS num5": "AS JCommTable6.R0C0",
+    "M num5": "M  JCommTable6.R0C0",
+    "AD den5": "AD JCommTable6.R1C0",
+    "AS den5": "AS JCommTable6.R1C0",
+    "M den5": "M  JCommTable6.R1C0"
+}
 
-class Streak(OuterLoopController):
+class DKT(OuterLoopController):
     def __init__(self):
         super().__init__()
 
-    def new_student(self, student_id, action_space=None, outer_loop_args = None):
+    def new_student(self, student_id, action_space=None, outer_loop_args=None):
         super().new_student(student_id, action_space)
+
+        if 'model_params' not in outer_loop_args:
+            raise ValueError("DTK Controller requires `model_params` value that"
+                             " provides model parameters.")
         
         # self.kcs = outer_loop_args['kcs']
         self.interface_to_kcs = outer_loop_args['interface_to_kc']
-        self.kcs = list(set(kc for interface_ele in self.interface_to_kcs for
+        self.kcs = list(set(kc_mapping[kc] for interface_ele in self.interface_to_kcs for
                             kc in self.interface_to_kcs[interface_ele]))
-
-        self.correct_counts = {kc: 0 for kc in self.kcs}
         self.num_problems = 0
+
+        self.model_params = outer_loop_args['model_params']
+        self.kc_seq = []
+        self.correct_seq = []
+        self.mastery = predict(self.model_params, self.kc_seq, self.correct_seq)[-1]
+        self.mastery = {kc: self.mastery[kc] for kc in self.kcs}
+        log.info("Initial mastery probs: {}".format(self.mastery))
 
         self.choose_max_unmastered = False
         if 'choose_max_unmastered' in outer_loop_args:
@@ -34,10 +72,10 @@ class Streak(OuterLoopController):
         if 'reuse_problems' in outer_loop_args:
             self.reuse_problems = outer_loop_args['reuse_problems']
 
-        # default streak threshold
-        self.streak_threshold = 3
-        if 'streak_threshold' in outer_loop_args:
-            self.streak_threshold = outer_loop_args['streak_threshold']
+        # default mastery threshold
+        self.mastery_threshold = 0.95
+        if 'mastery_threshold' in outer_loop_args:
+            self.mastery_threshold = outer_loop_args['mastery_threshold']
 
         # default max problems of 150
         self.max_problems = 150
@@ -63,12 +101,13 @@ class Streak(OuterLoopController):
     def resolve_kcs(self, step):
         kc_list = self.current_prob['kc_list']
         kc_list2 = self.interface_to_kcs[step]
-        return set(kc_list).intersection(set(kc_list2))
+        kcs = set(kc_list).intersection(set(kc_list2))
+        return [kc_mapping[kc] for kc in kcs]
 
         
     def update(self, step, reward, action_type):
         if step in self.steps_updated:
-            print('not first attempt, skipping update.')
+            log.info('not first attempt, skipping update.')
             return
 
         self.steps_updated.add(step)
@@ -82,7 +121,7 @@ class Streak(OuterLoopController):
             correctness = Back.BLUE + "example"
 
         # Print out information about performance
-        log.info(Fore.CYAN + "Streak Controller Udpate:", step, reward, correctness)
+        log.info(Fore.CYAN + "DKT Controller Udpate: {} {} {}".format(step, reward, correctness))
         
         # This controller updates the knowledge component based on the interface marked in the
         # Selection field - here, that corresponds to the step variable.
@@ -92,17 +131,18 @@ class Streak(OuterLoopController):
             log.info("No KC label for step.")
 
         for skill in kcs:
-            if skill not in self.correct_counts:
-                log.info("ERROR:", skill, "not included in kc_list adding... (",
-                        problem_name, ", ", step, ")")
-                self.correct_counts[skill] = 0
+            if skill not in self.mastery:
+                print("ERROR:", skill, "not included in kc_list")
 
-            if correctness_numeric == 1:
-                self.correct_counts[skill] += 1
-            else:
-                self.correct_counts[skill] = 0
+        # do check to ensure KC is in list
+        kcs_dict = {kc: 1 for kc in kcs}
 
-            log.info("Streak count for %s after update: %i" % (skill, self.correct_counts[skill]))
+        self.kc_seq.append(kcs_dict)
+        self.correct_seq.append(correctness_numeric)
+        self.mastery = predict(self.model_params, self.kc_seq, self.correct_seq)[-1]
+        self.mastery = {kc: self.mastery[kc] for kc in self.kcs}
+
+        log.info("Updated mastery probs: {}".format(self.mastery))
 
     def get_problem_kcs(self, problem):
         if("kc_list" in problem):
@@ -110,17 +150,15 @@ class Streak(OuterLoopController):
         else:
             raise ValueError("Problem objects must have attribute 'kc_list'")
 
-        return kcs
-
-
+        return [kc_mapping[kc] for kc in kcs]
 
     def all_skills_mastered(self):
         '''
         Returns true if all skills that we have problems for are above mastery threshold
         '''
-        for skill in self.correct_counts:
+        for skill in self.mastery:
             if (skill in self.problems_by_skill and
-                    self.correct_counts[skill] < self.streak_threshold):
+                    self.mastery[skill] < self.mastery_threshold):
                 return False
         return True
         
@@ -136,12 +174,10 @@ class Streak(OuterLoopController):
             # All skills have been mastered or we've asked as many
             # problems as allowed - stop training.
             self.test_mode  = True;
-            log.info("Streak counts when entering testing:", self.correct_counts)
-            log.info("Skills mastered:", self.all_skills_mastered())
+            log.info("Skills mastered: {}".format(self.mastery))
         
         if not self.test_mode:
-            log.info("Asking for problem ", self.num_problems)
-            log.info("Streak counts: ", self.correct_counts)
+            log.info("Asking for problem {}".format(self.num_problems))
             # Choose a problem with the most unmastered skills 
             
             max_unmastered_kcs = 0
@@ -154,7 +190,7 @@ class Streak(OuterLoopController):
                 #     skills = ["single_kc"]
                 
                 # Check how many skills that are used in this problem are unmastered
-                unmastered_kcs = [kc for kc in kcs if self.correct_counts[kc] < self.streak_threshold]
+                unmastered_kcs = [kc for kc in kcs if self.mastery[kc] < self.mastery_threshold]
                 if len(unmastered_kcs) == 0:
                     continue
                 elif self.choose_max_unmastered:
@@ -168,8 +204,7 @@ class Streak(OuterLoopController):
 
             if len(problem_with_unmastered_kcs) == 0:
                 self.test_mode  = True;
-                log.info("Streak counts when entering testing:", self.correct_counts)
-                log.info("Skills mastered:", self.all_skills_mastered())
+                log.info("Skills mastered: {}".format(self.mastery))
             else:
                 # Choose a random problem from problems with the maximum unmastered skills
                 nxt = choice(problem_with_unmastered_kcs)
@@ -186,5 +221,5 @@ class Streak(OuterLoopController):
                 nxt["test_mode"] = True
                 return nxt
             else:
-                log.info("Problems in training ( total number =", self.num_problems,")")
+                log.info("Problems in training ( total number = {} )".format(self.num_problems))
                 return None # done training

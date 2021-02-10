@@ -1,0 +1,60 @@
+{
+    "set_params" : {
+      "agent" : {
+        "agent_type": "WhereWhenHowNoFoa",
+        "stay_active": true,
+        "dont_save": true,
+        "function_set" : "fraction arith",
+        "feature_set" : "fraction arith",
+        "args": {
+      "when_learner": "decisiontree"
+        }
+      },
+      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
+      "abs_qf_paths": true
+    },
+  "training_set1": [
+    {
+      "agent_name": "DKT Controller_random",
+      "repetitions" : 1,
+      "outer_loop_controller" : {
+        "type" : "DKT",
+        "args" : {
+	  "model_params": "fractions_model_params.p",
+          "interface_to_kc" : {
+            "JCommTable8.R0C0" : ["AD check_convert"],
+            "done" : ["AD done", "AS done", "M done"],
+            "JCommTable4.R0C0" : ["AD num3"],
+            "JCommTable4.R1C0" : ["AD den3"],
+            "JCommTable5.R0C0" : ["AD num4"],
+            "JCommTable5.R1C0" : ["AD den4"],
+            "JCommTable6.R0C0" : ["AD num5", "AS num5", "M num5"],
+            "JCommTable6.R1C0" : ["AD den5", "AS den5", "M den5"],
+          }
+        },
+        "problem_set": {
+          "concatenate" : [
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/AD*",
+               "obj_template" : {"kc_list" : ["AD check_convert","AD den3","AD num3","AD den4","AD num4","AD den5","AD num5","AD done"]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/AS*",
+               "obj_template" : {"kc_list" : ["AS den5","AS num5","AS done"]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_brds/M*",
+               "obj_template" : {"kc_list" : ["M den5","M num5","M done"]}
+              }
+            }
+          ]
+        }
+      },
+    }
+  ]  
+}
