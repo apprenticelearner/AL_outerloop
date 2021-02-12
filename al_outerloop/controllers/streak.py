@@ -82,7 +82,7 @@ class Streak(OuterLoopController):
             correctness = Back.BLUE + "example"
 
         # Print out information about performance
-        log.info(Fore.CYAN + "Streak Controller Udpate:", step, reward, correctness)
+        log.info(Fore.CYAN + "Streak Controller Udpate: {} {} {}".format(step, reward, correctness))
         
         # This controller updates the knowledge component based on the interface marked in the
         # Selection field - here, that corresponds to the step variable.
@@ -93,8 +93,7 @@ class Streak(OuterLoopController):
 
         for skill in kcs:
             if skill not in self.correct_counts:
-                log.info("ERROR:", skill, "not included in kc_list adding... (",
-                        problem_name, ", ", step, ")")
+                log.info("ERROR: {} not included in kc_list adding... ({}, {})".format(skill, problem_name, step))
                 self.correct_counts[skill] = 0
 
             if correctness_numeric == 1:
@@ -102,7 +101,7 @@ class Streak(OuterLoopController):
             else:
                 self.correct_counts[skill] = 0
 
-            log.info("Streak count for %s after update: %i" % (skill, self.correct_counts[skill]))
+            log.info("Streak count for {} after update: {}".format(skill, self.correct_counts[skill]))
 
     def get_problem_kcs(self, problem):
         if("kc_list" in problem):
@@ -136,12 +135,12 @@ class Streak(OuterLoopController):
             # All skills have been mastered or we've asked as many
             # problems as allowed - stop training.
             self.test_mode  = True;
-            log.info("Streak counts when entering testing:", self.correct_counts)
-            log.info("Skills mastered:", self.all_skills_mastered())
+            log.info("Streak counts when entering testing: {}".format(self.correct_counts))
+            log.info("Skills mastered: {}".format(self.all_skills_mastered()))
         
         if not self.test_mode:
-            log.info("Asking for problem ", self.num_problems)
-            log.info("Streak counts: ", self.correct_counts)
+            log.info("Asking for problem {}".format(self.num_problems))
+            log.info("Streak counts: {}".format(self.correct_counts))
             # Choose a problem with the most unmastered skills 
             
             max_unmastered_kcs = 0
@@ -168,8 +167,8 @@ class Streak(OuterLoopController):
 
             if len(problem_with_unmastered_kcs) == 0:
                 self.test_mode  = True;
-                log.info("Streak counts when entering testing:", self.correct_counts)
-                log.info("Skills mastered:", self.all_skills_mastered())
+                log.info("Streak counts when entering testing: {}".format(self.correct_counts))
+                log.info("Skills mastered: {}".format(self.all_skills_mastered()))
             else:
                 # Choose a random problem from problems with the maximum unmastered skills
                 nxt = choice(problem_with_unmastered_kcs)
@@ -186,5 +185,5 @@ class Streak(OuterLoopController):
                 nxt["test_mode"] = True
                 return nxt
             else:
-                log.info("Problems in training ( total number =", self.num_problems,")")
+                log.info("Problems in training ( total number = {} )".format(self.num_problems))
                 return None # done training
