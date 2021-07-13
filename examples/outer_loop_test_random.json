@@ -9,7 +9,7 @@
         "args": {
           "planner" : "numba",
           "search_depth" : 2,
-          "when_learner": "trestle",
+          "when_learner": "decisiontree",
           "where_learner": "FastMostSpecific",
           "state_variablization" : "whereappend",
           "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent","dom_class"],
@@ -24,7 +24,7 @@
   "training_set1": [
     {
       "agent_name": "Random Controller",
-      "repetitions" : 100,
+      "repetitions" : 30,
       "outer_loop_controller" : {
         "type" : "Random",
         "problem_set": {

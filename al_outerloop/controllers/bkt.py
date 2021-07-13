@@ -240,7 +240,7 @@ class BKT(OuterLoopController):
                     elif len(unmastered_kcs) == max_unmastered_kcs: # We'll choose randomly among problems with the same number of unmastered skills
                         problem_with_unmastered_kcs.append(problem)
                 else:
-                    problem_with_unmastered_kcs.append(problem)
+                    problem_with_max_unmastered_kcs.append(problem)
 
             if len(problem_with_unmastered_kcs) == 0:
                 self.test_mode  = True;
