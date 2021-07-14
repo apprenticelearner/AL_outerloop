@@ -2,8 +2,8 @@
 Apprentice Learner Architecture / AL_Outerloop
 **********************************************
 
-.. image:: https://travis-ci.org/apprenticelearner/AL_outerloop.svg?branch=master
-    :target: https://travis-ci.org/apprenticelearner/AL_outerloop
+.. image:: https://travis-ci.com/apprenticelearner/AL_outerloop.svg?branch=master
+    :target: https://travis-ci.com/apprenticelearner/AL_outerloop
 
 .. image:: https://coveralls.io/repos/github/apprenticelearner/AL_outerloop/badge.svg
 	:target: https://coveralls.io/github/apprenticelearner/AL_outerloop
