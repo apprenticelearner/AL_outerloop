@@ -6,8 +6,6 @@ import colorama
 from colorama import Fore, Back, Style
 import logging
 
-from dkt_torch.model_fitting import predict
-
 colorama.init(autoreset=True)
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -42,6 +40,7 @@ kc_mapping = {
 
 class DKT(OuterLoopController):
     def __init__(self):
+        from dkt_torch.model_fitting import predict
         super().__init__()
 
     def new_student(self, student_id, action_space=None, outer_loop_args=None):
