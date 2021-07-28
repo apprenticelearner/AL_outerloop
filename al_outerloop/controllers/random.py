@@ -14,7 +14,7 @@ class Random(OuterLoopController):
         super().new_student(student_id, action_space, outer_loop_args)
 
         self.reuse_problems = False
-        if 'reuse_problems' in outer_loop_args:
+        if outer_loop_args is not None and 'reuse_problems' in outer_loop_args:
             self.reuse_problems = outer_loop_args['reuse_problems']
 
 
@@ -51,7 +51,7 @@ class Random(OuterLoopController):
             # The random controller assigns every problem in the
             # action space once, in random order.
             nxt = choice(self.action_space)
-            if not reuse_problems:
+            if not self.reuse_problems:
                 self.action_space.remove(nxt)
             return nxt
         elif(len(self.test_set) > 0):
