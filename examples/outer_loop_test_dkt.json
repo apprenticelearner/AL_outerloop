@@ -20,7 +20,7 @@
       "outer_loop_controller" : {
         "type" : "DKT",
         "args" : {
-	  "model_params": "fractions_model_params.p",
+	  "model_params": "examples/fractions_model_params.p",
           "interface_to_kc" : {
             "JCommTable8.R0C0" : ["AD check_convert"],
             "done" : ["AD done", "AS done", "M done"],

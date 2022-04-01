@@ -1,0 +1,80 @@
+{
+    "set_params" : {
+      "agent" : {
+        "agent_type": "WhereWhenHowNoFoa",
+        "stay_active": true,
+        "dont_save": true,
+        "function_set" : "fraction arith",
+        "feature_set" : "fraction arith",
+        "args": {
+      "when_learner": "decisiontree"
+        }
+      },
+      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
+      "abs_qf_paths": true
+    },
+  "training_set1": [
+    {
+      "agent_name": "Default BKT Controller",
+      "repetitions" : 30,
+      "outer_loop_controller" : {
+        "type" : "BKT",
+        "args" : {
+          "bkt_probs" : 
+            {
+             "AD check_convert" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             
+             "AD den3" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD num3" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD den4" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD num4" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD den5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD num5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AD done" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             
+             "AS num5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AS den5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "AS done" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+
+             "M num5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "M den5" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             "M done" : {"known": 0.1, "learn": 0.05, "guess": 0.05, "slip": 0.02},
+             
+            },
+          "interface_to_kc" : {
+            "JCommTable8.R0C0" : ["AD check_convert"],
+            "done" : ["AD done", "AS done", "M done"],
+            "JCommTable4.R0C0" : ["AD num3", "AS num3", "M num3"],
+            "JCommTable4.R1C0" : ["AD den3", "AS den3", "M den3"],
+            "JCommTable5.R0C0" : ["AD num4", "AS num4", "M num4"],
+            "JCommTable5.R1C0" : ["AD den4", "AS den4", "M den4"],
+            "JCommTable6.R0C0" : ["AD num5", "AS num5", "M num5"],
+            "JCommTable6.R1C0" : ["AD den5", "AS den5", "M den5"],
+          }
+        },
+        "problem_set": {
+          "concatenate" : [
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_80/AD*",
+               "obj_template" : {"kc_list" : ["AD check_convert","AD den3","AD num3","AD den4","AD num4","AD den5","AD num5","AD done"]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_80/AS*",
+               "obj_template" : {"kc_list" : ["AS den5","AS num5","AS done",]}
+              }
+            },
+            {"glob" :
+              {"key" : "question_file",
+               "pattern": "tutors/FractionArithmetic/mass_production_80/M*",
+               "obj_template" : {"kc_list" : ["M den5","M num5","M done"]}
+              }
+            }
+          ]
+        }
+      },
+    }
+  ]  
+}
