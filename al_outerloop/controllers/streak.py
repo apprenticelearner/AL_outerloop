@@ -19,7 +19,7 @@ class Streak(OuterLoopController):
         super().new_student(student_id, action_space)
         
         # self.kcs = outer_loop_args['kcs']
-        self.interface_to_kcs = outer_loop_args['interface_to_kc']
+        self.interface_to_kcs = outer_loop_args['interface_to_kcs']
         self.kcs = list(set(kc for interface_ele in self.interface_to_kcs for
                             kc in self.interface_to_kcs[interface_ele]))
 

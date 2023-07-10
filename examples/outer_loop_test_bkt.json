@@ -1,29 +1,21 @@
 {
-    "set_params" : {
-      "agent" : {
-        "agent_type": "ModularAgent",
-        "stay_active": true,
-        "dont_save": true,
-        "args": {
-          "planner" : "numba",
-          "search_depth" : 2,
-          "when_learner": "trestle",
-          "where_learner": "FastMostSpecific",
-          "state_variablization" : "whereappend",
-          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent","dom_class"],
-          "when_args" : {
-            "cross_rhs_inference" : "none"
-           },
-	   "function_set" : ["RipFloatValue","Add",
-		   "Subtract","Numerator_Multiply", "Cross_Multiply",
-		   "Divide"],
-           "feature_set" : ["Equals"],
-        }
-      },
-      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
-      "abs_qf_paths": true
-    },
-  "training_set1": [
+  "agent" : {
+    "agent_type": "CREAgent",
+    "stay_active": true,
+    "dont_save": true,
+    "args": {
+      "search_depth" : 1,
+      "how": "set_chaining",
+      "when": "decisiontree",
+      "where": "most_specific",
+      "function_set" : ["Add", "Subtract", "Multiply", "Divide"],
+      "feature_set" : ["Equals"],
+    }
+  },
+  "set_params" : {
+    "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
+  },
+  "batch_train": [
     {
       "agent_name": "BKT Controller",
       "repetitions" : 100,

@@ -1,39 +1,35 @@
 {
-    "set_params" : {
-      "agent" : {
-        "agent_type": "ModularAgent",
-        "stay_active": true,
-        "dont_save": true,
-        "args": {
-          "planner" : "numba",
-          "search_depth" : 2,
-          "when_learner": "trestle",
-          "where_learner": "FastMostSpecific",
-          "state_variablization" : "whereappend",
-          "strip_attrs" : ["to_left","to_right","above","below","type","id","offsetParent","dom_class"],
-          "when_args" : {
-            "cross_rhs_inference" : "none"
-          },
-          "function_set" : ["RipFloatValue","Add", "Subtract", "Multiply", "Divide"],
-          "feature_set" : ["Equals"]
-        }
-      },
-      "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
-      "abs_qf_paths": true
-    },
-  "training_set1": [
+  "agent" : {
+    "type": "CREAgent",
+    "stay_active": true,
+    "dont_save": true,
+    "args": {
+      "search_depth" : 1,
+      "how": "set_chaining",
+      "when": "decisiontree",
+      "where": "most_specific",
+      "function_set" : ["Add", "Subtract", "Multiply", "Divide"],
+      "feature_set" : ["Equals"],
+    }
+  },
+
+  "set_params" : {
+    "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html"
+  },
+
+  "batch_train": [
     {
       "agent_name": "Streak Agent",
       "repetitions" : 100,
       "outer_loop_controller" : {
         "type" : "Streak",
         "args" : {
-	  "streak_threshold": 3,
-	  "max_problems": 150,
-	  "choose_max_unmastered": True,
-	  "kcs": ["AD check_convert","AD den3","AD num3","AD den4",
-		  "AD num4","AD den5","AD num5","AD done","AS den5",
-		  "AS num5","AS done","M den5","M num5","M done"],
+      	  "streak_threshold": 3,
+      	  "max_problems": 150,
+      	  "choose_max_unmastered": true,
+      	  "kcs": ["AD check_convert","AD den3","AD num3","AD den4",
+      		  "AD num4","AD den5","AD num5","AD done","AS den5",
+      		  "AS num5","AS done","M den5","M num5","M done"],
           "interface_to_kcs" : {
             "JCommTable8.R0C0" : ["AD check_convert"],
             "done" : ["AD done", "AS done", "M done"],
