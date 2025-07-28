@@ -13,7 +13,7 @@
     }
   },
   "set_params" : {
-    "HTML": "tutors/FractionArithmetic/fraction_arithmetic.html",
+    "HTML": "./tutors/FractionArithmetic/fraction_arithmetic.html",
   },
   "batch_train": [
     {
@@ -57,19 +57,19 @@
           "concatenate" : [
             {"glob" :
               {"key" : "question_file",
-               "pattern": "tutors/FractionArithmetic/mass_production_brds/AD*",
+               "pattern": "./tutors/FractionArithmetic/mass_production_brds/AD*",
                "obj_template" : {"kc_list" : ["AD check_convert","AD den3","AD num3","AD den4","AD num4","AD den5","AD num5","AD done"]}
               }
             },
             {"glob" :
               {"key" : "question_file",
-               "pattern": "tutors/FractionArithmetic/mass_production_brds/AS*",
+               "pattern": "./tutors/FractionArithmetic/mass_production_brds/AS*",
                "obj_template" : {"kc_list" : ["AS den5","AS num5","AS done",]}
               }
             },
             {"glob" :
               {"key" : "question_file",
-               "pattern": "tutors/FractionArithmetic/mass_production_brds/M*",
+               "pattern": "./tutors/FractionArithmetic/mass_production_brds/M*",
                "obj_template" : {"kc_list" : ["M den5","M num5","M done"]}
               }
             }
